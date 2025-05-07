@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Optimizer</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; background-color: #f4f4f4; color: #333; }
+        .container { background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h1 { color: #333; }
+        textarea { width: 98%; min-height: 200px; margin-bottom: 15px; padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
+        input[type="submit"] { background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
+        input[type="submit"]:hover { background-color: #0056b3; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Resume Optimizer</h1>
+        <form method="POST">
+            <div>
+                <label for="job_description">Job Description:</label>
+                <textarea name="job_description" id="job_description" required></textarea>
+            </div>
+            <div>
+                <label for="resume_latex">Your LaTeX Resume:</label>
+                <textarea name="resume_latex" id="resume_latex" required></textarea>
+            </div>
+            <div>
+                <input type="submit" value="Optimize Resume">
+            </div>
+        </form>
+    </div>
+</body>
+</html>
