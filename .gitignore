@@ -103,6 +103,10 @@ ENV/
 env.bak/
 venv.bak/
 
+# User-specific data
+default_resume.tex
+tmp_latex_files/
+
 # Spyder project settings
 .spyderproject
 .spyproject

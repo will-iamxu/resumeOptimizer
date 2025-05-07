@@ -11,7 +11,7 @@
         textarea { width: 98%; min-height: 400px; margin-bottom: 15px; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-family: monospace; white-space: pre; }
         a { color: #007bff; text-decoration: none; }
         a:hover { text-decoration: underline; }
-        .button { display: inline-block; background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; text-align: center; margin-top:10px; }
+        .button { display: inline-block; background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; text-align: center; margin-top:10px; margin-right: 10px; }
         .button:hover { background-color: #0056b3; }
     </style>
     <script>
@@ -26,9 +26,12 @@
 <body>
     <div class="container">
         <h1>Optimized LaTeX Resume</h1>
-        <p>Copy the LaTeX code below and compile it with your preferred LaTeX editor (e.g., Overleaf, TeX Live, MiKTeX).</p>
+        <p>Copy the LaTeX code below and compile it with your preferred LaTeX editor (e.g., Overleaf, TeX Live, MiKTeX), or download the PDF directly if compilation is successful.</p>
         <textarea id="optimized_resume" readonly>{{ optimized_resume }}</textarea>
         <button onclick="copyToClipboard()" class="button">Copy LaTeX</button>
+        <form method="POST" action="{{ url_for('download_pdf') }}" style="display: inline;">
+            <button type="submit" class="button">Download as PDF</button>
+        </form>
         <br><br>
         <a href="{{ url_for('index') }}">Optimize Another Resume</a>
     </div>
