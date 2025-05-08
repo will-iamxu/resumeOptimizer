@@ -33,10 +33,28 @@ This project is a Flask web application that optimizes LaTeX resumes based on a 
 
 ### 3. Running the Application
 Once the setup is complete, run the Flask application:
-```bash
-python app.py
-```
-The application will be accessible at `http://127.0.0.1:5000/` in your web browser.
+
+**Option 1: Using the Batch Script (Windows)**
+1.  Navigate to the project directory (`c:\Users\will\Documents\resumeOptimizer`).
+2.  Double-click the `run_app.bat` file.
+    *   This will attempt to activate a virtual environment named `venv` if it exists in the project root.
+    *   It will then start the Flask server and automatically open `http://127.0.0.1:5000/` in your default web browser.
+    *   To stop the server, simply close the command prompt window that opens.
+
+**Option 2: Manual Start (All Platforms)**
+1.  Open your terminal or command prompt.
+2.  Navigate to the project directory:
+    ```bash
+    cd c:\Users\will\Documents\resumeOptimizer
+    ```
+3.  If you created a virtual environment, activate it:
+    *   Windows: `venv\Scripts\activate`
+    *   macOS/Linux: `source venv/bin/activate`
+4.  Run the application:
+    ```bash
+    python app.py
+    ```
+The application will be accessible at `http://127.0.0.1:5000/` in your web browser. To stop the server, press `CTRL+C` in the terminal.
 
 ### 4. Features
 *   Optimizes LaTeX resumes based on a job description using OpenAI.
@@ -128,3 +146,20 @@ If you're still having trouble, consult the documentation for your specific LaTe
 As an alternative to local LaTeX installation, you could integrate an online LaTeX compilation API. This would involve modifying the `download_pdf` function in `app.py` to send the LaTeX code to an external service and receive the PDF back.
 *   **Pros:** No local LaTeX installation needed.
 *   **Cons:** Dependency on a third-party service, potential costs, data privacy considerations for resume content, and added network latency.
+
+### 6. Project Structure
+```
+resumeOptimizer/
+├── app.py                 # Main Flask application
+├── run_app.bat            # Batch script to run the application on Windows
+├── .env                   # Environment variables (contains API key, gitignored)
+├── .gitignore             # Specifies intentionally untracked files that Git should ignore
+├── default_resume.tex     # Stores your default resume (gitignored)
+├── tmp_latex_files/       # Temporary storage for LaTeX files before PDF conversion (gitignored)
+├── templates/
+│   ├── index.html         # Main page template
+│   └── result.html        # Result page template
+├── static/                # Static files (CSS, JS, images) - if you add any
+├── requirements.txt       # Python dependencies
+└── README.md              # This file
+```
