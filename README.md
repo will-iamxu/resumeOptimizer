@@ -6,7 +6,8 @@
 3. [Running the Application](#3-running-the-application)
 4. [Features](#4-features)
 5. [PDF Generation Prerequisite](#5-pdf-generation-prerequisite)
-6. [Project Structure](#6-project-structure)
+6. [Application Preview](#6-application-preview)
+7. [Project Structure](#7-project-structure)
 
 ### 1. Introduction
 This project is a Flask web application that optimizes LaTeX resumes based on a job description using OpenAI's GPT-4 model.
@@ -147,7 +148,16 @@ As an alternative to local LaTeX installation, you could integrate an online LaT
 *   **Pros:** No local LaTeX installation needed.
 *   **Cons:** Dependency on a third-party service, potential costs, data privacy considerations for resume content, and added network latency.
 
-### 6. Project Structure
+You would need to research and select a suitable API provider if you choose this route.
+
+### 6. Application Preview
+
+Below is a preview of the Resume Optimizer application interface.
+
+![Resume Optimizer Interface](./assets/resume.png)
+
+
+### 7. Project Structure
 ```
 resumeOptimizer/
 ├── app.py                 # Main Flask application
@@ -156,6 +166,8 @@ resumeOptimizer/
 ├── .gitignore             # Specifies intentionally untracked files that Git should ignore
 ├── default_resume.tex     # Stores your default resume (gitignored)
 ├── tmp_latex_files/       # Temporary storage for LaTeX files before PDF conversion (gitignored)
+├── assets/                # For static assets like images
+│   └── resume.png         # Example application screenshot
 ├── templates/
 │   ├── index.html         # Main page template
 │   └── result.html        # Result page template
