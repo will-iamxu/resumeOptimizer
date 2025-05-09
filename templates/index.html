@@ -3,60 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resume Optimizer</title>
+    <title>Resume Optimizer AI</title>
     <style>
-        body { font-family: sans-serif; margin: 20px; background-color: #f4f4f4; color: #333; }
-        .container { background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        h1 { color: #333; }
-        textarea { width: 98%; min-height: 200px; margin-bottom: 15px; padding: 10px; border: 1px solid #ddd; border-radius: 4px; }
-        input[type="submit"], button { background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-right: 10px; }
-        input[type="submit"]:hover, button:hover { background-color: #0056b3; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; }
-        .messages { list-style: none; padding: 0; margin-bottom: 15px; }
-        .messages li { padding: 10px; margin-bottom: 10px; border-radius: 4px; }
-        .messages li.error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-        .messages li.success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            margin: 0; 
+            padding: 0;
+            background-color: #f0f2f5; 
+            color: #333; 
+            line-height: 1.6;
+        }
+        .navbar {
+            background-color: #ffffff;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .navbar h1 {
+            margin: 0;
+            color: #007bff;
+            font-size: 1.75rem;
+        }
+        .container { 
+            max-width: 900px;
+            margin: 30px auto;
+            background-color: #fff; 
+            padding: 30px; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+        }
+        h2 {
+            color: #333;
+            margin-top: 0;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        textarea, input[type="text"] { 
+            width: calc(100% - 22px); /* Account for padding and border */
+            min-height: 150px; 
+            margin-bottom: 20px; 
+            padding: 10px; 
+            border: 1px solid #ced4da; 
+            border-radius: 6px; 
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        textarea#job_description { min-height: 100px; }
+        input[type="text"] { min-height: auto; }
+
+        input[type="submit"], button { 
+            background-color: #007bff; 
+            color: white; 
+            padding: 12px 25px; 
+            border: none; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-size: 1rem; 
+            font-weight: 500;
+            transition: background-color 0.2s ease-in-out;
+            margin-right: 10px; 
+        }
+        input[type="submit"]:hover, button:hover { 
+            background-color: #0056b3; 
+        }
+        button.secondary {
+            background-color: #6c757d;
+        }
+        button.secondary:hover {
+            background-color: #545b62;
+        }
+        label { 
+            display: block; 
+            margin-bottom: 8px; 
+            font-weight: 600; 
+            color: #495057;
+        }
+        .form-group {
+            margin-bottom: 25px;
+        }
+        .messages { 
+            list-style: none; 
+            padding: 0; 
+            margin-bottom: 25px; 
+        }
+        .messages li { 
+            padding: 15px; 
+            margin-bottom: 15px; 
+            border-radius: 6px; 
+            border: 1px solid transparent;
+            font-size: 0.95rem;
+        }
+        .messages li.error { 
+            background-color: #f8d7da; 
+            color: #721c24; 
+            border-color: #f5c6cb; 
+        }
+        .messages li.success { 
+            background-color: #d4edda; 
+            color: #155724; 
+            border-color: #c3e6cb; 
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            font-size: 0.9rem;
+            color: #6c757d;
+            border-top: 1px solid #e0e0e0;
+        }
     </style>
 </head>
 <body>
+    <header class="navbar">
+        <h1>Resume Optimizer AI</h1>
+    </header>
+
     <div class="container">
-        <h1>Resume Optimizer</h1>
+        <h2>Optimize Your LaTeX Resume</h2>
 
         {% with messages = get_flashed_messages(with_categories=true) %}
           {% if messages %}
             <ul class="messages">
             {% for category, message in messages %}
-              <li class="{{ category }}">{{ message }}</li>
+              {% if category == 'error_html' %}
+                <li class="error">{{ message | safe }}</li>
+              {% else %}
+                <li class="{{ category }}">{{ message }}</li>
+              {% endif %}
             {% endfor %}
             </ul>
           {% endif %}
         {% endwith %}
 
         <form method="POST">
-            <div>
+            <div class="form-group">
                 <label for="job_description">Job Description:</label>
-                <textarea name="job_description" id="job_description" required></textarea>
+                <textarea name="job_description" id="job_description" required placeholder="Paste the job description here..."></textarea>
             </div>
-            <div>
+            <div class="form-group">
                 <label for="company_name">Company Name (for PDF filename):</label>
-                <input type="text" name="company_name" id="company_name" style="width: 98%; padding: 10px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 4px;">
+                <input type="text" name="company_name" id="company_name" placeholder="e.g., AcmeCorp">
             </div>
-            <div>
+            <div class="form-group">
                 <label for="resume_latex">Your LaTeX Resume:</label>
-                <textarea name="resume_latex" id="resume_latex" required>{{ default_resume_text }}</textarea>
+                <textarea name="resume_latex" id="resume_latex" required placeholder="Paste your full LaTeX resume code here...">{{ default_resume_text }}</textarea>
             </div>
             <div>
                 <input type="submit" value="Optimize Resume">
             </div>
         </form>
 
-        <div style="margin-top: 20px;">
+        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
             <form method="POST" action="{{ url_for('save_default_resume') }}" style="display: inline;">
                 <input type="hidden" name="resume_data" id="resume_data_to_save">
-                <button type="button" onclick="prepareAndSaveDefault()">Save Current Resume as Default</button>
+                <button type="button" class="secondary" onclick="prepareAndSaveDefault()">Save Current Resume as Default</button>
             </form>
         </div>
     </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 Resume Optimizer AI. For demonstration purposes.</p>
+    </footer>
 
     <script>
         function prepareAndSaveDefault() {

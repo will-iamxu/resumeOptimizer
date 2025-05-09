@@ -1,25 +1,39 @@
 @echo off
-echo Starting Resume Optimizer...
+echo Resume Optimizer Debug Script
+echo -----------------------------
+echo.
+echo Current directory before CD: %CD%
+pause
 
-:: Navigate to the directory where this script is located
+echo Changing directory to script location: %~dp0
 cd /d "%~dp0"
+echo Current directory after CD: %CD%
+pause
 
-:: Check for a virtual environment and activate it if present
 IF EXIST venv\Scripts\activate.bat (
-    echo Activating virtual environment...
+    echo Virtual environment (venv) found. Attempting to activate...
     call venv\Scripts\activate.bat
+    echo Virtual environment activation attempted. Check for errors above.
 ) ELSE (
-    echo Virtual environment (venv) not found. Running with system Python.
-    echo Consider creating one with: python -m venv venv
+    echo Virtual environment (venv) not found in %CD%\venv
+    echo Will attempt to use system Python. Ensure Python is in your PATH.
+    echo To create a venv: python -m venv venv
 )
+pause
 
-:: Start the Flask application
-echo Starting Flask server...
+echo Attempting to launch web browser for http://127.0.0.1:5000/
 start "" http://127.0.0.1:5000/
+echo Web browser launch command executed.
+pause
 
-:: Run the Python application.
-:: The server will run in this window. Closing this window will stop the server.
+echo Now attempting to run the Flask application with: python app.py
+echo If Python or app.py is not found, or if app.py crashes, errors should appear below.
 python app.py
 
-echo Flask server stopped.
+echo ---------------------------------------------------------------------
+echo Flask server (python app.py) has stopped or failed to start.
+echo If the server started, you would have seen Flask's output above,
+echo and this message would only appear after you stop the server (e.g., CTRL+C).
+echo If it closed instantly, check for error messages above this section.
+echo ---------------------------------------------------------------------
 pause

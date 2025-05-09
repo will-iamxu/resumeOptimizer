@@ -3,16 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Optimized Resume</title>
+    <title>Optimized Resume - Resume Optimizer AI</title>
     <style>
-        body { font-family: sans-serif; margin: 20px; background-color: #f4f4f4; color: #333; }
-        .container { background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        h1 { color: #333; }
-        textarea { width: 98%; min-height: 400px; margin-bottom: 15px; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-family: monospace; white-space: pre; }
-        a { color: #007bff; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-        .button { display: inline-block; background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; text-align: center; margin-top:10px; margin-right: 10px; }
-        .button:hover { background-color: #0056b3; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            margin: 0; 
+            padding: 0;
+            background-color: #f0f2f5; 
+            color: #333; 
+            line-height: 1.6;
+        }
+        .navbar {
+            background-color: #ffffff;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .navbar h1 {
+            margin: 0;
+            color: #007bff;
+            font-size: 1.75rem;
+        }
+        .container { 
+            max-width: 900px;
+            margin: 30px auto;
+            background-color: #fff; 
+            padding: 30px; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+        }
+        h2 {
+            color: #333;
+            margin-top: 0;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        textarea { 
+            width: calc(100% - 22px); 
+            min-height: 400px; 
+            margin-bottom: 20px; 
+            padding: 10px; 
+            border: 1px solid #ced4da; 
+            border-radius: 6px; 
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+            white-space: pre;
+            font-size: 0.9rem;
+            box-sizing: border-box;
+        }
+        a { 
+            color: #007bff; 
+            text-decoration: none; 
+            font-weight: 500;
+        }
+        a:hover { 
+            text-decoration: underline; 
+        }
+        .button, button[type="submit"] { 
+            display: inline-block; 
+            background-color: #007bff; 
+            color: white; 
+            padding: 12px 25px; 
+            border: none; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-size: 1rem; 
+            text-align: center; 
+            margin-top:10px; 
+            margin-right: 10px; 
+            font-weight: 500;
+            transition: background-color 0.2s ease-in-out;
+        }
+        .button:hover, button[type="submit"]:hover { 
+            background-color: #0056b3; 
+        }
+        .button.secondary {
+            background-color: #28a745; /* Green for a positive action */
+        }
+        .button.secondary:hover {
+            background-color: #1e7e34;
+        }
+        .actions-bar {
+            margin-bottom: 25px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            font-size: 0.9rem;
+            color: #6c757d;
+            border-top: 1px solid #e0e0e0;
+        }
     </style>
     <script>
         function copyToClipboard() {
@@ -24,16 +105,28 @@
     </script>
 </head>
 <body>
+    <header class="navbar">
+        <h1>Resume Optimizer AI</h1>
+    </header>
+
     <div class="container">
-        <h1>Optimized LaTeX Resume</h1>
-        <p>Copy the LaTeX code below and compile it with your preferred LaTeX editor (e.g., Overleaf, TeX Live, MiKTeX), or download the PDF directly if compilation is successful.</p>
+        <h2>Optimized LaTeX Resume</h2>
+        <p>Review the optimized LaTeX code below. You can copy it or download the compiled PDF directly.</p>
+        
         <textarea id="optimized_resume" readonly>{{ optimized_resume }}</textarea>
-        <button onclick="copyToClipboard()" class="button">Copy LaTeX</button>
-        <form method="POST" action="{{ url_for('download_pdf') }}" style="display: inline;">
-            <button type="submit" class="button">Download as PDF</button>
-        </form>
-        <br><br>
+        
+        <div class="actions-bar">
+            <button onclick="copyToClipboard()" class="button">Copy LaTeX</button>
+            <form method="POST" action="{{ url_for('download_pdf') }}" style="display: inline;">
+                <button type="submit" class="button secondary">Download as PDF</button>
+            </form>
+        </div>
+        
         <a href="{{ url_for('index') }}">Optimize Another Resume</a>
     </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 Resume Optimizer AI. For demonstration purposes.</p>
+    </footer>
 </body>
 </html>
