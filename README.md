@@ -15,7 +15,7 @@ This project is a Flask web application that optimizes LaTeX resumes based on a 
 ### 2. Setup
 1. Clone the repository:
     ```bash
-    git clone https://github.com/yourusername/resumeOptimizer.git
+    git clone https://github.com/will-iamxu/resumeOptimizer.git
     cd resumeOptimizer
     ```
 2. Create a virtual environment and activate it:
@@ -36,7 +36,7 @@ This project is a Flask web application that optimizes LaTeX resumes based on a 
 Once the setup is complete, run the Flask application:
 
 **Option 1: Using the Batch Script (Windows)**
-1.  Navigate to the project directory (`c:\Users\will\Documents\resumeOptimizer`).
+1.  Navigate to the project directory (`~\resumeOptimizer`).
 2.  Double-click the `run_app.bat` file.
     *   This will attempt to activate a virtual environment named `venv` if it exists in the project root.
     *   It will then start the Flask server and automatically open `http://127.0.0.1:5000/` in your default web browser.
@@ -46,7 +46,7 @@ Once the setup is complete, run the Flask application:
 1.  Open your terminal or command prompt.
 2.  Navigate to the project directory:
     ```bash
-    cd c:\Users\will\Documents\resumeOptimizer
+    cd ~\resumeOptimizer
     ```
 3.  If you created a virtual environment, activate it:
     *   Windows: `venv\Scripts\activate`
