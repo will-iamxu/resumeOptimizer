@@ -168,17 +168,17 @@ def download_pdf():
             
             with open(compile_tex_filepath, 'w', encoding='utf-8') as f:
                 f.write(optimized_resume_latex)
-
+                
             compilation_log = ""
             compilation_successful = False
             # PDF path will be inside tmpdir_compile
             pdf_output_path = os.path.join(tmpdir_compile, compile_pdf_filename)
-
+            
             for i in range(2): # Run pdflatex twice
                 process = subprocess.run(
                     ['pdflatex', '-interaction=nonstopmode', '-output-directory', tmpdir_compile, compile_tex_filepath],
                     capture_output=True, text=True, encoding='utf-8', errors='ignore',
-                    timeout=30 
+                    timeout=120  # Increased timeout from 30 to 120 seconds
                 )
                 compilation_log += f"--- pdflatex Run {i+1} ---\nReturn Code: {process.returncode}\nStdout:\n{process.stdout}\nStderr:\n{process.stderr}\n"
                 
@@ -264,11 +264,17 @@ def download_pdf():
                 return error_message_html, 500
 
     except subprocess.TimeoutExpired:
-        flash("LaTeX compilation timed out. The document might be too complex or there could be an issue with the LaTeX installation.", "error")
+        flash("LaTeX compilation timed out. This could be due to one of the following reasons:<br>"
+              "1. The document is very complex and needs more time to compile.<br>"
+              "2. There's an issue with your LaTeX installation.<br>"
+              "3. A LaTeX package is missing or causing the timeout.<br>"
+              "Try using the MiKTeX Console to check for and install updates.", "error")
         return redirect(url_for('index')) 
     except FileNotFoundError: 
-        flash("Error: pdflatex command not found. Ensure a LaTeX distribution is installed and pdflatex is in your system's PATH.", "error")
-        return redirect(url_for('index')) 
+        flash("Error: pdflatex command not found. Please ensure MiKTeX is properly installed "
+              "and the bin directory is in your system PATH. You can verify this by running "
+              "'pdflatex --version' in a new Command Prompt.", "error")
+        return redirect(url_for('index'))
     except Exception as e:
         flash(f"An unexpected error occurred during PDF generation: {str(e)}", "error")
         return redirect(url_for('index'))
