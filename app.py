@@ -70,17 +70,26 @@ Instructions:
 
 Optimized LaTeX Resume:
 """
-            
-            response = openai.chat.completions.create(
-                model="gpt-4o",
-                messages=[
-                    {"role": "system", "content": "You are an expert resume optimizer specializing in LaTeX resumes."},
-                    {"role": "user", "content": prompt}
-                ],
-                temperature=0.5,
-            )
-            
-            optimized_resume_latex = response.choices[0].message.content.strip()
+            try:
+                response = openai.chat.completions.create(
+                    model="gpt-4o",
+                    messages=[
+                        {"role": "system", "content": "You are an expert resume optimizer specializing in LaTeX resumes."},
+                        {"role": "user", "content": prompt}
+                    ],
+                    temperature=0.5,
+                )
+                optimized_resume_latex = response.choices[0].message.content.strip()
+            except AttributeError:
+                response = openai.ChatCompletion.create(
+                    model="gpt-4o",
+                    messages=[
+                        {"role": "system", "content": "You are an expert resume optimizer specializing in LaTeX resumes."},
+                        {"role": "user", "content": prompt}
+                    ],
+                    temperature=0.5,
+                )
+                optimized_resume_latex = response.choices[0].message.content.strip()
             
             if optimized_resume_latex.startswith("```latex"):
                 optimized_resume_latex = optimized_resume_latex[len("```latex"):].strip()
@@ -165,7 +174,6 @@ def download_pdf():
             # PDF path will be inside tmpdir_compile
             pdf_output_path = os.path.join(tmpdir_compile, compile_pdf_filename)
 
-
             for i in range(2): # Run pdflatex twice
                 process = subprocess.run(
                     ['pdflatex', '-interaction=nonstopmode', '-output-directory', tmpdir_compile, compile_tex_filepath],
@@ -179,7 +187,7 @@ def download_pdf():
                     if i == 1: break 
                 else:
                     compilation_successful = False
-                    break 
+                    break
 
             if compilation_successful:
                 pdf_buffer = io.BytesIO()
@@ -209,6 +217,39 @@ def download_pdf():
                             full_log_content = log_f.read()
                             if not full_log_content.strip():
                                 full_log_content = "Log file was empty."
+                            
+                            # Extract missing package information
+                            missing_packages = []
+                            package_pattern = r"! LaTeX Error: File ['\"](.*?).sty['\"](.*?)not found"
+                            for line in full_log_content.split('\n'):
+                                package_match = re.search(package_pattern, line)
+                                if package_match:
+                                    missing_packages.append(package_match.group(1).replace('.sty', ''))
+                            
+                            if missing_packages:
+                                missing_pkgs_str = ", ".join(missing_packages)
+                                flash(f"Missing LaTeX packages detected: {missing_pkgs_str}. Please install these packages using MiKTeX Console.", "error")
+                                
+                                # Add instructions for installing packages
+                                installation_instructions = (
+                                    f"<div class='alert alert-info'>"
+                                    f"<h4>Installing Missing LaTeX Packages</h4>"
+                                    f"<p>To install the missing packages using MiKTeX Console:</p>"
+                                    f"<ol>"
+                                    f"<li>Open MiKTeX Console (search for it in your Start menu)</li>"
+                                    f"<li>Go to the 'Packages' tab</li>"
+                                    f"<li>Use the search box to find each package: {missing_pkgs_str}</li>"
+                                    f"<li>Select each package and click the '+' button to install it</li>"
+                                    f"</ol>"
+                                    f"<p>Or enable 'Install missing packages on-the-fly':</p>"
+                                    f"<ol>"
+                                    f"<li>In MiKTeX Console, go to Settings → General</li>"
+                                    f"<li>Set 'Install missing packages on-the-fly' to 'Yes'</li>"
+                                    f"<li>Click 'Apply', then try downloading the PDF again</li>"
+                                    f"</ol>"
+                                    f"</div>"
+                                )
+                                flash(installation_instructions, "info_html")
                     except Exception as log_e:
                         full_log_content = f"Error reading log file: {str(log_e)}"
                 
@@ -230,7 +271,7 @@ def download_pdf():
         return redirect(url_for('index')) 
     except Exception as e:
         flash(f"An unexpected error occurred during PDF generation: {str(e)}", "error")
-        return redirect(url_for('index')) 
+        return redirect(url_for('index'))
     finally:
         # Clean up the temporary LaTeX file from TEMP_LATEX_DIR
         if os.path.exists(temp_latex_filepath):
