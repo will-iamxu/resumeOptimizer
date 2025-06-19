@@ -78,6 +78,7 @@ Optimized LaTeX Resume:
                         {"role": "user", "content": prompt}
                     ],
                     temperature=0.5,
+                    max_tokens=12000,
                 )
                 optimized_resume_latex = response.choices[0].message.content.strip()
             except AttributeError:
@@ -88,6 +89,7 @@ Optimized LaTeX Resume:
                         {"role": "user", "content": prompt}
                     ],
                     temperature=0.5,
+                    max_tokens=12000,
                 )
                 optimized_resume_latex = response.choices[0].message.content.strip()
             
