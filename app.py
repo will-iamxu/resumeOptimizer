@@ -184,7 +184,7 @@ def download_pdf():
                 )
                 compilation_log += f"--- pdflatex Run {i+1} ---\nReturn Code: {process.returncode}\nStdout:\n{process.stdout}\nStderr:\n{process.stderr}\n"
                 
-                if process.returncode == 0 and os.path.exists(pdf_output_path):
+                if os.path.exists(pdf_output_path):
                     compilation_successful = True
                     if i == 1: break 
                 else:
